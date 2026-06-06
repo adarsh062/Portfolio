@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink } from "lucide-react"
+import { FaGithub } from "react-icons/fa"
 import Image from "next/image"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -159,7 +160,7 @@ function ProjectCard({
               onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = project.accent)}
               onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "oklch(0.55 0.008 268)")}
             >
-              <Github className="w-4.5 h-4.5" />
+              <FaGithub className="w-4.5 h-4.5" />
             </a>
             <a
               href={project.link}
@@ -247,7 +248,7 @@ export function Projects() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 btn-outline px-7 py-3.5 text-sm font-medium"
           >
-            <Github className="w-4 h-4" />
+            <FaGithub className="w-4 h-4" />
             More on GitHub
           </a>
         </div>

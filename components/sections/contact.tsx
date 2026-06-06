@@ -4,21 +4,22 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { MagneticButton } from "@/components/magnetic-button"
-import { Github, Linkedin, Code2, Mail, ArrowUpRight, Copy } from "lucide-react"
+import { Code2, Mail, ArrowUpRight, Copy } from "lucide-react"
+import { FaGithub, FaLinkedin } from "react-icons/fa"
 import { useState } from "react"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const socials = [
   {
-    icon: Github,
+    icon: FaGithub,
     label: "GitHub",
     href: "https://github.com/adarsh062",
     handle: "@adarsh062",
     accent: "#a78bfa",
   },
   {
-    icon: Linkedin,
+    icon: FaLinkedin,
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/adarsh-maurya-640776290/",
     handle: "Adarsh-maurya",

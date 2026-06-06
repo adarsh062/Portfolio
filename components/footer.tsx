@@ -1,6 +1,7 @@
 "use client"
 
-import { Github, Linkedin, Code2, Heart } from "lucide-react"
+import { Code2, Heart } from "lucide-react"
+import { FaGithub, FaLinkedin } from "react-icons/fa"
 
 export function Footer() {
   return (
@@ -22,8 +23,8 @@ export function Footer() {
         {/* Socials */}
         <div className="flex items-center gap-4">
           {[
-            { Icon: Github, href: "https://github.com/adarsh062", label: "GitHub" },
-            { Icon: Linkedin, href: "https://www.linkedin.com/in/adarsh-maurya-64077629/", label: "LinkedIn" },
+            { Icon: FaGithub, href: "https://github.com/adarsh062", label: "GitHub" },
+            { Icon: FaLinkedin, href: "https://www.linkedin.com/in/adarsh-maurya-64077629/", label: "LinkedIn" },
             { Icon: Code2, href: "https://leetcode.com/u/EAvlrf5Y0M/", label: "LeetCode" },
           ].map(({ Icon, href, label }) => (
             <a

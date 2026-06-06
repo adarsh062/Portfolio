@@ -4,7 +4,8 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { HeroScene } from "@/components/hero-scene"
 import { MagneticButton } from "@/components/magnetic-button"
-import { ArrowDown, Github, Linkedin } from "lucide-react"
+import { ArrowDown } from "lucide-react"
+import { FaGithub, FaLinkedin } from "react-icons/fa"
 
 export function Hero() {
   const tagRef = useRef<HTMLSpanElement>(null)
@@ -99,7 +100,7 @@ export function Hero() {
             className="p-3 rounded-full transition-all duration-300 hover:scale-110 bg-white/5 border border-white/10 text-white hover:bg-white/20"
             aria-label="GitHub"
           >
-            <Github className="w-5 h-5" />
+            <FaGithub className="w-5 h-5" />
           </a>
           <a
             href="https://www.linkedin.com/in/adarsh-maurya-64077629/"
@@ -108,7 +109,7 @@ export function Hero() {
             className="p-3 rounded-full transition-all duration-300 hover:scale-110 bg-white/5 border border-white/10 text-white hover:bg-white/20"
             aria-label="LinkedIn"
           >
-            <Linkedin className="w-5 h-5" />
+            <FaLinkedin className="w-5 h-5" />
           </a>
           <span className="text-xs font-mono tracking-widest px-4 py-2 rounded-full bg-white/5 text-gray-300 border border-white/5">
             mauryadarsh9140@gmail.com
