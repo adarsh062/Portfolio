@@ -86,7 +86,7 @@
   }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(0, 255, 213, 0.5);
+    background: linear-gradient(180deg, rgba(100,200,255,0.7), rgba(0,80,180,0.6));
     border-radius: 2px;
   }
 }
@@ -192,6 +192,40 @@
 }
 
 .animate-float { animation: float 6s ease-in-out infinite; }
+
+/* ── Star field (night sky) ── */
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
+}
+
+.star-field {
+  background-image:
+    radial-gradient(1px 1px at 12%  8%,  rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 18%,  rgba(180,220,255,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 43% 5%,  rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 12%,  rgba(200,240,255,0.85)0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 6%,   rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 15%,  rgba(220,240,255,0.75)0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 30%,  rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 25%,  rgba(180,220,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 28%,  rgba(255,255,255,0.65)0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 40%,  rgba(200,230,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 38%,  rgba(255,255,255,0.55)0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 32%, rgba(255,255,255,0.8)0%,transparent 100%),
+    radial-gradient(1px 1px at 5%  22%,  rgba(180,220,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 42%,  rgba(255,255,255,0.45)0%, transparent 100%);
+  animation: star-twinkle 4s ease-in-out infinite alternate;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+/* show stars when night overlay is active (JS toggles class) */
+.night-mode .star-field { opacity: 0.8; }
+
+/* z-15 utility between z-10 and z-20 */
+.z-15 { z-index: 15; }
 
 #scroll-progress {
   position: fixed;
