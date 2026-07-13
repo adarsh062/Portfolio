@@ -20,6 +20,10 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
     // Integrate Lenis with GSAP ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update)
 
+    if (typeof window !== "undefined") {
+      (window as any).lenis = lenis
+    }
+
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000)
     })

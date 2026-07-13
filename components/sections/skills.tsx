@@ -9,192 +9,164 @@ gsap.registerPlugin(ScrollTrigger)
 const skillGroups = [
   {
     title: "Languages",
-    accent: "#a78bfa",
-    skills: ["JavaScript", "TypeScript", "C++", "C", "Python", "SQL"],
+    skills: "C++, Java, JavaScript (ES6+), Python, SQL",
   },
   {
     title: "Frontend",
-    accent: "#34d399",
-    skills: ["React.js", "Next.js", "Tailwind CSS", "HTML5", "CSS3", "Three.js"],
+    skills: "React.js, Next.js, Tailwind CSS, Three.js, GSAP",
   },
   {
-    title: "Backend",
-    accent: "#60a5fa",
-    skills: ["Node.js", "Express.js", "REST APIs", "JWT", "Kafka", "Supabase"],
+    title: "Backend & DBs",
+    skills: "Node.js, Express.js, REST APIs, PostgreSQL, MongoDB, Supabase",
   },
   {
-    title: "Databases",
-    accent: "#fb923c",
-    skills: ["PostgreSQL", "MongoDB", "H2", "Supabase"],
+    title: "AI / ML",
+    skills: "Machine Learning, Generative AI, LLM Integration, Prompt Engineering, CatBoost, Groq API, Gemini API",
   },
   {
-    title: "Tools & DevOps",
-    accent: "#f472b6",
-    skills: ["Git", "Docker", "CI/CD", "Vercel", "Render", "Postman"],
+    title: "DevOps & Tools",
+    skills: "Git, GitHub, Docker, Kubernetes, Jenkins, GitHub Actions, CI/CD",
   },
   {
-    title: "Achievements",
-    accent: "#fbbf24",
-    skills: ["200+ LeetCode", "CodeChef 3⭐", "5+ Events Led", "ARK @ 150+ MAU"],
+    title: "Certifications",
+    skills: "Software Engineering Job Sim (Forage - Kafka workflows) · Multi Cloud & DevOps Bootcamp",
   },
 ]
 
 const marqueeItems = [
-  "React", "TypeScript", "Node.js", "Next.js", "Three.js",
-  "GSAP", "Docker", "PostgreSQL", "Python", "Supabase", "MongoDB",
+  "React", "TypeScript", "Node.js", "Next.js", "Jenkins",
+  "Docker", "Kubernetes", "PostgreSQL", "Python", "Supabase", "MongoDB", "GSAP"
 ]
 
-function SkillCard({
-  group,
-  index,
-}: {
-  group: (typeof skillGroups)[0]
-  index: number
-}) {
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!cardRef.current) return
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, y: 70, scale: 0.95 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1.4,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top 88%",
-          toggleActions: "play none none reverse",
-        },
-        delay: index * 0.07,
-      }
-    )
-  }, [index])
-
-  return (
-    <div
-      ref={cardRef}
-      className="glass-card p-6 opacity-0 group hover:scale-[1.02] transition-transform duration-300"
-      style={{ "--accent": group.accent } as React.CSSProperties}
-    >
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-5">
-        <div
-          className="w-2 h-2 rounded-full"
-          style={{ background: group.accent, boxShadow: `0 0 8px ${group.accent}` }}
-        />
-        <h3
-          className="text-sm font-mono uppercase tracking-widest font-semibold"
-          style={{ color: group.accent }}
-        >
-          {group.title}
-        </h3>
-      </div>
-
-      {/* Skill chips */}
-      <div className="flex flex-wrap gap-2">
-        {group.skills.map((s) => (
-          <span
-            key={s}
-            className="skill-pill"
-            style={
-              {
-                "--hover-border": `${group.accent}55`,
-                "--hover-bg": `${group.accent}12`,
-              } as React.CSSProperties
-            }
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLSpanElement
-              el.style.borderColor = `${group.accent}55`
-              el.style.background = `${group.accent}12`
-              el.style.color = "oklch(0.92 0.005 268)"
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLSpanElement
-              el.style.borderColor = ""
-              el.style.background = ""
-              el.style.color = ""
-            }}
-          >
-            {s}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export function Skills() {
-  const tagRef = useRef<HTMLDivElement>(null)
-  const headingRef = useRef<HTMLHeadingElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   const marqueeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    gsap.fromTo(
-      [tagRef.current, headingRef.current],
-      { opacity: 0, y: 80 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.5,
-        stagger: 0.15,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 82%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    )
+    if (!contentRef.current || !sectionRef.current) return
 
-    // Infinite marquee
-    const el = marqueeRef.current?.querySelector(".marquee-track") as HTMLElement | null
-    if (el) {
-      gsap.to(el, { xPercent: -50, duration: 25, ease: "none", repeat: -1 })
-    }
+    const ctx = gsap.context(() => {
+      // Stagger rows in
+      gsap.fromTo(
+        contentRef.current!.querySelectorAll(".anim-row"),
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.06,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+
+      // Infinite marquee
+      const el = marqueeRef.current?.querySelector(".marquee-track") as HTMLElement | null
+      if (el) {
+        gsap.to(el, { xPercent: -50, duration: 32, ease: "none", repeat: -1 })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
   }, [])
 
   return (
-    <section id="skills" className="py-32">
-      <div className="px-6 md:px-12 lg:px-24 max-w-7xl mx-auto">
-        <div ref={tagRef} className="mb-4 opacity-0">
-          <span className="section-number">03 / Skills</span>
-        </div>
+    <section
+      ref={sectionRef}
+      id="skills"
+      className="relative z-10 transition-colors duration-500"
+      style={{ 
+        background: "var(--background-theme)", 
+        color: "var(--text-theme)", 
+        paddingTop: "8rem" 
+      }}
+    >
+      <div ref={contentRef}>
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+          {/* Section header */}
+          <div className="anim-row flex items-center gap-6 mb-16">
+            <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
+            <span className="editorial-label shrink-0 opacity-50" style={{ color: "var(--text-theme)" }}>04 / Skills</span>
+          </div>
 
-        <h2
-          ref={headingRef}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 opacity-0 leading-tight"
-        >
-          My <span className="gradient-text">Tech Stack</span>
-        </h2>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {skillGroups.map((group, index) => (
-            <SkillCard key={group.title} group={group} index={index} />
-          ))}
-        </div>
-      </div>
-
-      {/* Marquee */}
-      <div
-        ref={marqueeRef}
-        className="mt-20 overflow-hidden py-6"
-        style={{ borderTop: "1px solid oklch(0.20 0.012 268)", borderBottom: "1px solid oklch(0.20 0.012 268)" }}
-      >
-        <div className="marquee-track flex">
-          {[...marqueeItems, ...marqueeItems].map((skill, i) => (
-            <span
-              key={i}
-              className="text-5xl md:text-7xl font-bold mx-10 shrink-0"
-              style={{ color: "oklch(0.72 0.22 280 / 0.12)" }}
+          <div className="anim-row mb-16">
+            <h2
+              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.02em", color: "var(--text-theme)" }}
             >
-              {skill}
-            </span>
-          ))}
+              Technical
+              <br />
+              <em className="opacity-50" style={{ fontStyle: "italic", color: "var(--text-theme)" }}>Capabilities</em>
+            </h2>
+          </div>
+
+          {/* Editorial Skills Table of Content Style */}
+          <div className="space-y-0">
+            <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
+            {skillGroups.map((group, i) => (
+              <div
+                key={group.title}
+                className="anim-row flex flex-col md:flex-row md:items-baseline py-6 group transition-colors duration-300"
+                style={{ borderBottom: "1px solid var(--border-theme)" }}
+              >
+                {/* Index + Title */}
+                <div className="flex items-center gap-4 w-full md:w-64 shrink-0 mb-2 md:mb-0">
+                  <span className="font-mono text-xs opacity-50 font-semibold" style={{ color: "var(--text-theme)" }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span 
+                    className="font-display text-lg font-bold group-hover:italic transition-all duration-300" 
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "var(--text-theme)" }}
+                  >
+                    {group.title}
+                  </span>
+                </div>
+
+                {/* Dot Leader */}
+                <div className="hidden md:block flex-grow border-b border-dotted mx-4 self-center h-[1px]" style={{ borderColor: "var(--border-theme)", opacity: 0.3 }} />
+
+                {/* Skills list */}
+                <div className="text-sm font-semibold opacity-75 max-w-xl text-left md:text-right font-sans" style={{ color: "var(--text-theme)" }}>
+                  {group.skills}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {/* Marquee ticker */}
+        <div
+          ref={marqueeRef}
+          className="marquee-container mt-24 overflow-hidden py-7"
+          style={{
+            borderTop: "1px solid var(--border-theme)",
+            borderBottom: "1px solid var(--border-theme)",
+          }}
+        >
+          <div className="marquee-track flex">
+            {[...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems].map((skill, i) => (
+              <span
+                key={i}
+                className="font-display text-5xl md:text-7xl font-black mx-10 shrink-0 select-none"
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  color: "var(--text-theme)",
+                  opacity: 0.04,
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom padding */}
+        <div style={{ paddingBottom: "8rem" }} />
       </div>
     </section>
   )

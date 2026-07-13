@@ -7,6 +7,10 @@ export const metadata: Metadata = {
     'Passionate CS student at IIIT Bhopal building scalable full-stack and AI-powered applications. Experienced in leading teams and deploying production systems.',
   keywords: ['Adarsh Maurya', 'IIIT Bhopal', 'Full Stack Developer', 'React', 'Node.js', 'AI', 'Portfolio'],
   authors: [{ name: 'Adarsh Maurya', url: 'https://github.com/adarsh062' }],
+  icons: {
+    icon: '/icon.svg',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: 'Adarsh Maurya | Full-Stack & AI Developer',
     description: 'Building real-world products at the intersection of code, design, and intelligence.',

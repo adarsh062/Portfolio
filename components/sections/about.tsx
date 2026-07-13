@@ -3,67 +3,63 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { GraduationCap, Code2, Rocket, MapPin } from "lucide-react"
+import Image from "next/image"
+import {
+  SiGithub,
+  SiGmail,
+  SiVercel,
+  SiLeetcode
+} from "react-icons/si"
+import { FaPhone, FaCode, FaLinkedin } from "react-icons/fa"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const stats = [
-  { value: "200+", label: "DSA Problems" },
-  { value: "3⭐", label: "CodeChef" },
-  { value: "3+", label: "Live Projects" },
-  { value: "150+", label: "MAU on ARK" },
+  { value: "400+", label: "DSA Problems Solved" },
+  { value: "3⭐", label: "CodeChef Rating (1619)" },
+  { value: "15+", label: "Events Led (Music Lead)" },
+  { value: "2023-27", label: "B.Tech CSE (IIIT Bhopal)" },
 ]
 
-const cards = [
-  {
-    icon: GraduationCap,
-    title: "Education",
-    content: "B.Tech CSE · IIIT Bhopal\nSept 2023 – June 2027",
-    accent: "#a78bfa",
-  },
-  {
-    icon: Code2,
-    title: "Focus",
-    content: "Full-Stack · AI/ML · Production Systems",
-    accent: "#c084fc",
-  },
-  {
-    icon: Rocket,
-    title: "Currently",
-    content: "Building AI-powered apps, competing on LeetCode, leading team projects.",
-    accent: "#818cf8",
-  },
-  {
-    icon: MapPin,
-    title: "Location",
-    content: "Bhopal, India 🇮🇳",
-    accent: "#a78bfa",
-  },
+const details = [
+  { label: "Institution", value: "IIIT Bhopal" },
+  { label: "Degree", value: "B.Tech. CSE" },
+  { label: "Duration", value: "Sept 2023 – June 2027" },
+  { label: "Location", value: "Bhopal, India" },
+]
+
+const coursework = [
+  "Data Structures & Algorithms",
+  "Object-Oriented Programming (OOP)",
+  "Database Management Systems (DBMS)",
+  "System Design",
+  "Computer Networks",
+  "Cryptography"
 ]
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null)
-  const tagRef = useRef<HTMLDivElement>(null)
-  const headingRef = useRef<HTMLHeadingElement>(null)
-  const paraRef = useRef<HTMLDivElement>(null)
-  const statsRef = useRef<HTMLDivElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      })
+    if (!contentRef.current || !sectionRef.current) return
 
-      tl.fromTo(tagRef.current, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" })
-        .fromTo(headingRef.current, { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 1.4, ease: "power4.out" }, "-=1.0")
-        .fromTo(paraRef.current?.children ?? [], { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.4, stagger: 0.15, ease: "power4.out" }, "-=1.2")
-        .fromTo(statsRef.current?.children ?? [], { opacity: 0, y: 40, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 1.2, stagger: 0.1, ease: "power4.out" }, "-=1.1")
-        .fromTo(cardsRef.current?.children ?? [], { opacity: 0, y: 50, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 1.4, stagger: 0.12, ease: "power4.out" }, "-=1.1")
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        contentRef.current!.querySelectorAll(".anim-child"),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
     }, sectionRef)
 
     return () => ctx.revert()
@@ -73,92 +69,177 @@ export function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="py-32 px-6 md:px-12 lg:px-24 max-w-7xl mx-auto"
+      className="relative z-10 transition-colors duration-500"
+      style={{
+        background: "var(--background-theme)",
+        color: "var(--text-theme)",
+        paddingTop: "5rem",
+        paddingBottom: "5rem"
+      }}
     >
-      {/* Section label */}
-      <div ref={tagRef} className="mb-4 opacity-0">
-        <span className="section-number">01 / About</span>
-      </div>
-
-      <h2
-        ref={headingRef}
-        className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12 opacity-0 leading-tight"
-      >
-        Crafting{" "}
-        <span className="gradient-text">Real-World</span>
-        <br />
-        Solutions
-      </h2>
-
-      {/* Two-column layout */}
-      <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-        {/* Left: bio + stats */}
-        <div>
-          <div ref={paraRef} className="space-y-5 mb-12">
-            <p className="opacity-0 text-lg text-muted-foreground leading-relaxed">
-              I&apos;m a passionate Computer Science student at{" "}
-              <span style={{ color: "oklch(0.80 0.18 280)" }}>IIIT Bhopal</span>, focused on building scalable
-              full-stack and AI-powered applications that solve real problems at scale.
-            </p>
-            <p className="opacity-0 text-lg text-muted-foreground leading-relaxed">
-              From leading a 4-member Agile team to shipping a production NGO platform to{" "}
-              <span style={{ color: "oklch(0.80 0.18 280)" }}>150+ monthly active users</span> — I thrive where
-              engineering meets impact. I&apos;m deeply interested in the intersection of AI, performance, and
-              elegant UI.
-            </p>
-            <p className="opacity-0 text-lg text-muted-foreground leading-relaxed">
-              When I&apos;m not building, you&apos;ll find me grinding DSA on LeetCode or organising college events
-              for 30+ members.
-            </p>
-          </div>
-
-          {/* Stats */}
-          <div ref={statsRef} className="grid grid-cols-2 gap-4">
-            {stats.map((s) => (
-              <div
-                key={s.label}
-                className="glass-card p-5 opacity-0"
-              >
-                <div
-                  className="text-3xl font-bold font-mono mb-1"
-                  style={{
-                    background: "linear-gradient(135deg, oklch(0.80 0.18 280), oklch(0.65 0.26 310))",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  {s.value}
-                </div>
-                <div className="text-sm text-muted-foreground">{s.label}</div>
-              </div>
-            ))}
-          </div>
+      <div ref={contentRef} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+        {/* Top rule + label */}
+        <div className="anim-child flex items-center gap-6 mb-12">
+          <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
+          <span className="editorial-label shrink-0 opacity-50" style={{ color: "var(--text-theme)" }}>01 / About Me</span>
         </div>
 
-        {/* Right: info cards */}
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4 content-start">
-          {cards.map(({ icon: Icon, title, content, accent }) => (
-            <div
-              key={title}
-              className="glass-card p-6 opacity-0 group transition-all duration-300 hover:scale-[1.03]"
-              style={{ "--card-accent": accent } as React.CSSProperties}
-            >
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center mb-4"
-                style={{ background: `${accent}1a`, border: `1px solid ${accent}33` }}
+        {/* Spread Layout: Reduced gaps to optimize space */}
+        <div className="grid lg:grid-cols-[1.1fr_1px_1.1fr] gap-0">
+
+          {/* Left Side: Bio & Stats */}
+          <div className="pr-0 lg:pr-10 pb-8 lg:pb-0 flex flex-col justify-between">
+            <div>
+              <h2
+                className="anim-child font-display text-4xl md:text-5xl font-bold leading-tight mb-6"
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  letterSpacing: "-0.02em",
+                  color: "var(--text-theme)"
+                }}
               >
-                <Icon className="w-5 h-5" style={{ color: accent }} />
+                About
+                <br />
+                <em className="opacity-50" style={{ fontStyle: "italic", color: "var(--text-theme)" }}>Me</em>
+              </h2>
+
+              <div className="space-y-4 mb-8">
+                <p className="anim-child text-sm md:text-base leading-relaxed opacity-80" style={{ color: "var(--text-theme)" }}>
+                  I&apos;m a Computer Science student at <span className="font-semibold" style={{ color: "var(--text-theme)" }}>Indian Institute of Information Technology (IIIT) Bhopal</span>, focused on engineering scalable full-stack applications, DevSecOps pipelines, and GenAI solutions that solve real problems.
+                </p>
+                <p className="anim-child text-sm md:text-base leading-relaxed opacity-85" style={{ color: "var(--text-theme)" }}>
+                  I love writing high-performance code and building real-world products. From leading a 4-member Agile team to shipping a production NGO platform — I thrive where engineering meets impact. Alongside development, I serve as the Music Lead for college events, managing and coordinating teams to deliver memorable experiences.
+                </p>
               </div>
-              <h3
-                className="text-sm font-semibold uppercase tracking-widest mb-2"
-                style={{ color: accent }}
-              >
-                {title}
-              </h3>
-              <p className="text-foreground text-sm leading-relaxed whitespace-pre-line">{content}</p>
+
+              {/* Coursework list */}
+              <div className="anim-child mb-8">
+                <span className="editorial-label block mb-2.5 opacity-50" style={{ color: "var(--text-theme)", fontSize: "0.6rem" }}>Relevant Coursework</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {coursework.map((course) => (
+                    <span
+                      key={course}
+                      className="editorial-tag opacity-90"
+                      style={{
+                        borderColor: "var(--border-theme)",
+                        color: "var(--text-theme)",
+                        fontSize: "0.6rem",
+                        padding: "0.15rem 0.45rem"
+                      }}
+                    >
+                      {course}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
+
+            {/* Stats Row */}
+            <div className="anim-child grid grid-cols-2 gap-x-6 gap-y-4 pt-4" style={{ borderTop: "1px solid var(--border-theme)" }}>
+              {stats.map((s) => (
+                <div key={s.label}>
+                  <span className="font-display text-2xl md:text-3xl font-bold" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "var(--text-theme)" }}>
+                    {s.value}
+                  </span>
+                  <span className="editorial-label block opacity-50" style={{ fontSize: "0.55rem", color: "var(--text-theme)" }}>
+                    {s.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Vertical divider */}
+          <div className="hidden lg:block mx-10 w-[1px]" style={{ background: "var(--border-theme)", alignSelf: "stretch" }} />
+
+          {/* Right Side: Photo, details list, and links */}
+          <div className="pl-0 lg:pl-10 flex flex-col justify-between">
+            {/* Portrait Image Frame */}
+            <div className="about-transition-target relative w-full aspect-[4/3] border border-black/10 dark:border-white/10 overflow-hidden mb-6 bg-black/5 dark:bg-white/5">
+              <Image
+                src="/mphoto.jpeg"
+                alt="Adarsh Maurya"
+                fill
+                className="about-transition-img object-contain object-bottom"
+                sizes="(max-width: 768px) 100vw, 400px"
+              />
+              <div className="absolute inset-0 bg-white/[0.02] mix-blend-overlay pointer-events-none" />
+            </div>
+
+            {/* Profile Details List */}
+            <div className="anim-child space-y-3 pt-3 mb-6" style={{ borderTop: "1px solid var(--border-theme)" }}>
+              {details.map((d) => (
+                <div key={d.label} className="flex justify-between items-baseline py-0.5">
+                  <span className="editorial-label opacity-50" style={{ color: "var(--text-theme)", fontSize: "0.55rem" }}>
+                    {d.label}
+                  </span>
+                  <span className="text-xs font-semibold" style={{ fontFamily: "'Space Grotesk', sans-serif", color: "var(--text-theme)" }}>
+                    {d.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Important Links - Center-aligned row, brand logos in color */}
+            <div className="anim-child pt-4" style={{ borderTop: "1px solid var(--border-theme)" }}>
+              <span className="editorial-label block mb-4 opacity-50" style={{ color: "var(--text-theme)", fontSize: "0.6rem" }}>Important Links</span>
+              <div className="flex flex-wrap gap-x-8 gap-y-4 items-center justify-start sm:justify-between">
+                {/* GitHub */}
+                <a
+                  href="https://github.com/adarsh062"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer"
+                >
+                  <SiGithub className="text-4xl md:text-5xl transition-transform duration-300 group-hover:scale-110" style={{ color: "var(--text-theme)" }} />
+                  <span className="text-[10px] font-bold opacity-75 group-hover:opacity-100 transition-opacity" style={{ color: "var(--text-theme)" }}>GitHub</span>
+                </a>
+
+                {/* LinkedIn */}
+                <a
+                  href="https://www.linkedin.com/in/adarsh-maurya-64077629/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer"
+                >
+                  <FaLinkedin className="text-4xl md:text-5xl transition-transform duration-300 group-hover:scale-110" style={{ color: "#0a66c2" }} />
+                  <span className="text-[10px] font-bold opacity-75 group-hover:opacity-100 transition-opacity" style={{ color: "var(--text-theme)" }}>LinkedIn</span>
+                </a>
+
+                {/* Codolio */}
+                <a
+                  href="https://codolio.com/profile/adarsh062"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer"
+                >
+                  <FaCode className="text-4xl md:text-5xl transition-transform duration-300 group-hover:scale-110" style={{ color: "#ff5a00" }} />
+                  <span className="text-[10px] font-bold opacity-75 group-hover:opacity-100 transition-opacity" style={{ color: "var(--text-theme)" }}>Codolio</span>
+                </a>
+
+                {/* leetcode */}
+                <a
+                  href="https://leetcode.com/u/EAvlrf5Y0M/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer"
+                >
+                  <SiLeetcode className="text-4xl md:text-5xl transition-transform duration-300 group-hover:scale-110" style={{ color: "#ffa116" }} />
+                  <span className="text-[10px] font-bold opacity-75 group-hover:opacity-100 transition-opacity" style={{ color: "var(--text-theme)" }}>LeetCode</span>
+                </a>
+
+                {/* Email */}
+                <a
+                  href="mailto:mauryadarsh9140@gmail.com"
+                  className="flex flex-col items-center gap-1.5 group cursor-pointer"
+                >
+                  <SiGmail className="text-4xl md:text-5xl transition-transform duration-300 group-hover:scale-110" style={{ color: "#ea4335" }} />
+                  <span className="text-[10px] font-bold opacity-75 group-hover:opacity-100 transition-opacity" style={{ color: "var(--text-theme)" }}>Email</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ExternalLink } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
 import Image from "next/image"
 
@@ -11,182 +11,201 @@ gsap.registerPlugin(ScrollTrigger)
 
 const projects = [
   {
-    title: "ARK",
-    tagline: "NGO Donation & Discovery Platform",
+    title: "Diagheal",
+    tagline: "Chronic Liver Disease Prediction (Research Project)",
     description:
-      "Led a 4-member Agile team to deliver a production-ready platform in 2 months. Reduced NGO onboarding by ~30% and built a scalable location-based discovery system serving 150+ MAU.",
-    tags: ["React", "Supabase", "Node.js", "Docker", "CI/CD"],
-    image: "/project_ark.png",
-    link: "https://betheark.app",
-    github: "https://github.com/adarsh062",
-    accent: "#34d399",
+      "Evaluated 6+ machine learning models and selected CatBoost with 89%+ accuracy. Reduced false negatives by 18% using SMOTE, class weighting, and decision threshold optimization. Built a Next.js/FastAPI platform featuring report analysis, disease risk prediction, doctor availability mapping, and Groq-powered diet plans.",
+    tags: ["Next.js", "FastAPI", "CatBoost", "PostgreSQL", "Tailwind CSS", "Groq API"],
+    image: "/project_diagheal.png",
+    link: "https://diagheal.vercel.app/",
+    github: "https://github.com/adarsh062/Diagheal",
+    year: "2026",
+    role: "AI Developer · Solo Minor Project",
     number: "01",
   },
   {
-    title: "DiagHeal",
-    tagline: "AI Health Insight Platform",
+    title: "Enterprise DevSecOps CI/CD",
+    tagline: "Secure Pipeline Orchestration",
     description:
-      "Extracts biomarkers via Tesseract OCR and runs ML-based health risk prediction returning results in under 30 seconds. Features a doctor referral system with end-to-end data encryption.",
-    tags: ["React", "Node.js", "ML", "OCR", "Tailwind"],
-    image: "/project_diagheal.png",
-    link: "https://diagheal.vercel.app/",
-    github: "https://github.com/adarsh062",
-    accent: "#a78bfa",
+      "Built a secure DevSecOps pipeline automating build, test, and containerized deployment on Kubernetes. Utilized Terraform for infrastructure provisioning, SonarQube for static analysis, GitHub Actions/Jenkins for flow orchestration, and Trivy for container image vulnerability scanning.",
+    tags: ["Jenkins", "Docker", "Kubernetes", "Terraform", "GitHub Actions", "SonarQube", "Trivy"],
+    image: "/image.png",
+    link: "https://github.com/adarsh062/devsecops-security-pipeline",
+    github: "https://github.com/adarsh062/devsecops-security-pipeline",
+    year: "2026",
+    role: "DevOps Engineer · Solo",
     number: "02",
   },
   {
-    title: "Imagify",
-    tagline: "AI Image Generation Platform",
+    title: "NEXUS-AI",
+    tagline: "Realtime GenAI Customer Support",
     description:
-      "Text-to-image generation SaaS with 100+ completions, supporting 50+ concurrent users. Integrated Stripe/Razorpay payment system and improved initial load performance by 20%.",
-    tags: ["React", "Node.js", "APIs", "JWT", "Payments"],
-    image: "/project_imagify.png",
-    link: "https://imagify-5-h5iu.onrender.com/",
-    github: "https://github.com/adarsh062",
-    accent: "#fb923c",
+      "Engineered a real-time AI customer support platform supporting 50+ concurrent active chat sessions. Integrated multilingual ticket summarization using Gemini API, built secure JWT-based REST endpoints, and containerized deployment on Render with MongoDB storage.",
+    tags: ["React", "Node.js", "Express.js", "MongoDB", "Socket.IO", "Gemini API", "Docker"],
+    image: "/image.png",
+    link: "https://github.com/adarsh062/NEXUS-AI",
+    github: "https://github.com/adarsh062/NEXUS-AI",
+    year: "2025",
+    role: "Full Stack Engineer · Solo",
     number: "03",
   },
 ]
 
-function ProjectCard({
+function ProjectSpread({
   project,
   index,
 }: {
   project: (typeof projects)[0]
   index: number
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
+  const rowRef = useRef<HTMLDivElement>(null)
   const imgRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const card = cardRef.current
-    if (!card) return
+    if (!rowRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        [textRef.current, imgRef.current],
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: rowRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+    }, rowRef)
+    return () => ctx.revert()
+  }, [])
 
-    gsap.fromTo(
-      card,
-      { opacity: 0, y: 100, scale: 0.94 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1.4,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: card,
-          start: "top 90%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    )
-  }, [index])
-
-  const onEnter = () => {
-    if (!cardRef.current) return
-    gsap.to(cardRef.current, { y: -6, duration: 0.35, ease: "power2.out" })
-    if (imgRef.current) gsap.to(imgRef.current, { scale: 1.06, duration: 0.5, ease: "power2.out" })
-  }
-
-  const onLeave = () => {
-    if (!cardRef.current) return
-    gsap.to(cardRef.current, { y: 0, duration: 0.45, ease: "power2.out" })
-    if (imgRef.current) gsap.to(imgRef.current, { scale: 1, duration: 0.5, ease: "power2.out" })
-  }
+  const isEven = index % 2 === 0
 
   return (
-    <div
-      ref={cardRef}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      className="glass-card overflow-hidden group opacity-0 cursor-pointer"
-      style={{
-        boxShadow: `0 0 0 1px oklch(0.22 0.012 268)`,
-        transition: "box-shadow 0.3s ease",
-      }}
-      onMouseOver={(e) => {
-        ;(e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 24px ${project.accent}30, 0 0 0 1px ${project.accent}40`
-      }}
-      onMouseOut={(e) => {
-        ;(e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 0 1px oklch(0.22 0.012 268)`
-      }}
-    >
-      {/* Image */}
-      <div className="aspect-video overflow-hidden relative">
-        <div ref={imgRef} className="relative w-full h-full">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </div>
-        {/* overlay */}
-        <div className="project-img-overlay" />
-        {/* number badge */}
-        <span
-          className="absolute top-4 left-4 text-xs font-mono px-2.5 py-1 rounded-full"
-          style={{
-            background: `${project.accent}18`,
-            border: `1px solid ${project.accent}40`,
-            color: project.accent,
-          }}
+    <div ref={rowRef} className="py-16 md:py-24">
+      <div className="h-[1px] w-full mb-12" style={{ background: "var(--border-theme)" }} />
+      <div
+        className={`grid lg:grid-cols-2 gap-12 md:gap-16 items-start ${isEven ? "" : "direction-rtl"}`}
+      >
+        {/* Text side */}
+        <div
+          ref={textRef}
+          className={`flex flex-col justify-between h-full ${
+            isEven ? "pr-0 lg:pr-8" : "pl-0 lg:pl-8 order-last lg:order-first"
+          }`}
         >
-          {project.number}
-        </span>
-      </div>
+          {/* Number + meta */}
+          <div className="flex items-start justify-between mb-8 border-b border-black/10 dark:border-white/10 pb-4">
+            <span
+              className="font-display font-black leading-none tracking-tighter"
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontSize: "clamp(3rem, 6vw, 4.5rem)",
+                color: "var(--text-theme)",
+                opacity: 0.08,
+              }}
+            >
+              {project.number}
+            </span>
+            <div className="text-right">
+              <div className="editorial-label mb-1 opacity-55" style={{ color: "var(--text-theme)", fontSize: "0.6rem" }}>{project.year}</div>
+              <div className="editorial-label opacity-55" style={{ color: "var(--text-theme)", fontSize: "0.6rem" }}>{project.role}</div>
+            </div>
+          </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-2">
-          <div>
+          {/* Title + tagline */}
+          <div className="mb-6">
             <h3
-              className="text-xl font-bold text-foreground mb-0.5 transition-colors duration-300"
-              style={{ color: "oklch(0.95 0.005 268)" }}
+              className="font-display text-3xl md:text-4xl font-bold mb-3 leading-tight"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.02em", color: "var(--text-theme)" }}
             >
               {project.title}
             </h3>
-            <p className="text-xs font-mono" style={{ color: project.accent }}>
+            <p className="editorial-label text-xs opacity-50" style={{ color: "var(--text-theme)", fontSize: "0.65rem" }}>
               {project.tagline}
             </p>
           </div>
-          <div className="flex gap-3 mt-1">
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors duration-200 hover:scale-110"
-              style={{ color: "oklch(0.55 0.008 268)" }}
-              aria-label="GitHub"
-              onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = project.accent)}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "oklch(0.55 0.008 268)")}
-            >
-              <FaGithub className="w-4.5 h-4.5" />
-            </a>
+
+          {/* Description */}
+          <p
+            className="text-sm md:text-base leading-relaxed mb-6 opacity-75"
+            style={{ color: "var(--text-theme)" }}
+          >
+            {project.description}
+          </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5 mb-8">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="editorial-tag opacity-80"
+                style={{
+                  borderColor: "var(--border-theme)",
+                  color: "var(--text-theme)",
+                  fontSize: "0.6rem",
+                  padding: "0.15rem 0.5rem"
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Links - Blue High Contrast, Larger size */}
+          <div className="flex items-center gap-6">
             <a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors duration-200 hover:scale-110"
-              style={{ color: "oklch(0.55 0.008 268)" }}
-              aria-label="Live project"
-              onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = project.accent)}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "oklch(0.55 0.008 268)")}
+              className="editorial-link hover:text-blue-800 transition-colors inline-flex items-center gap-1.5 text-sm md:text-base font-bold"
+              style={{
+                color: "#0066cc",
+                borderBottomColor: "rgba(0, 102, 204, 0.4)",
+              }}
             >
-              <ExternalLink className="w-4.5 h-4.5" />
+              Live Site
+              <ArrowUpRight className="w-5 h-5 text-[#0066cc]" />
+            </a>
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="editorial-link hover:text-blue-800 transition-colors inline-flex items-center gap-1.5 text-sm md:text-base font-bold"
+              style={{
+                color: "#0066cc",
+                borderBottomColor: "rgba(0, 102, 204, 0.4)",
+              }}
+            >
+              GitHub
+              <FaGithub className="w-5 h-5 text-[#0066cc]" />
             </a>
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-          {project.description}
-        </p>
-
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span key={tag} className="skill-pill">
-              {tag}
-            </span>
-          ))}
+        {/* Image side - 16:10 format in full color */}
+        <div
+          ref={imgRef}
+          className={`${isEven ? "pl-0 lg:pl-8" : "pr-0 lg:pr-8"}`}
+        >
+          <div
+            className="relative w-full aspect-[16/10] border border-black/10 dark:border-white/10 overflow-hidden shadow-lg bg-black/5 dark:bg-white/5"
+          >
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 550px"
+            />
+            {/* Subtle overlay */}
+            <div className="absolute inset-0 bg-black/5 dark:bg-white/5 pointer-events-none" />
+          </div>
         </div>
       </div>
     </div>
@@ -194,64 +213,83 @@ function ProjectCard({
 }
 
 export function Projects() {
-  const tagRef = useRef<HTMLDivElement>(null)
-  const headingRef = useRef<HTMLHeadingElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    gsap.fromTo(
-      [tagRef.current, headingRef.current],
-      { opacity: 0, y: 80 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.5,
-        stagger: 0.15,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    )
+    if (!headingRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current!.querySelectorAll(".anim-child"),
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+    }, headingRef)
+    return () => ctx.revert()
   }, [])
 
   return (
     <section
+      ref={sectionRef}
       id="projects"
-      className="py-32 px-6 md:px-12 lg:px-24 bg-transparent"
+      className="relative z-10 transition-colors duration-500"
+      style={{ 
+        background: "var(--background-theme)", 
+        color: "var(--text-theme)", 
+        paddingTop: "8rem", 
+        paddingBottom: "6rem" 
+      }}
     >
-      <div className="max-w-7xl mx-auto">
-        <div ref={tagRef} className="mb-4 opacity-0">
-          <span className="section-number">02 / Projects</span>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
+
+        {/* Section header */}
+        <div ref={headingRef} className="mb-0">
+          <div className="anim-child flex items-center gap-6 mb-16">
+            <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
+            <span className="editorial-label shrink-0 opacity-50" style={{ color: "var(--text-theme)" }}>03 / Projects</span>
+          </div>
+
+          <div className="anim-child flex flex-col md:flex-row md:items-end justify-between gap-6 mb-0">
+            <h2
+              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.02em", color: "var(--text-theme)" }}
+            >
+              Projects
+            </h2>
+            <a
+              href="https://github.com/adarsh062"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="editorial-link mb-2 shrink-0 inline-flex items-center gap-1.5 font-semibold hover:text-blue-800 transition-colors"
+              style={{
+                color: "#0066cc",
+                borderBottomColor: "rgba(0, 102, 204, 0.4)",
+              }}
+            >
+              More on GitHub
+              <FaGithub className="w-5 h-5 text-[#0066cc]" />
+            </a>
+          </div>
         </div>
 
-        <h2
-          ref={headingRef}
-          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-16 opacity-0 leading-tight"
-        >
-          Things I&apos;ve{" "}
-          <span className="gradient-text">Built</span>
-        </h2>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Projects spreads */}
+        <div className="mt-8">
           {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
+            <ProjectSpread key={project.title} project={project} index={index} />
           ))}
+          <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
         </div>
 
-        {/* More on GitHub */}
-        <div className="mt-14 text-center">
-          <a
-            href="https://github.com/adarsh062"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 btn-outline px-7 py-3.5 text-sm font-medium"
-          >
-            <FaGithub className="w-4 h-4" />
-            More on GitHub
-          </a>
-        </div>
       </div>
     </section>
   )
