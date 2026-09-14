@@ -23,6 +23,11 @@ export default function Home() {
     const saved = localStorage.getItem("portfolio-theme") as "light" | "dark" | null
     if (saved) {
       setTheme(saved)
+      if (saved === "dark") {
+        document.documentElement.classList.add("dark")
+      } else {
+        document.documentElement.classList.remove("dark")
+      }
     }
   }, [])
 
@@ -30,13 +35,18 @@ export default function Home() {
     const next = theme === "light" ? "dark" : "light"
     setTheme(next)
     localStorage.setItem("portfolio-theme", next)
+    if (next === "dark") {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
   }
 
   return (
     <SmoothScrollProvider>
       <main
         className={`min-h-screen cursor-none md:cursor-none transition-colors duration-500 bg-[var(--background-theme)] ${
-          theme === "dark" ? "dark-theme" : ""
+          theme === "dark" ? "dark dark-theme" : ""
         }`}
       >
         <CustomCursor />

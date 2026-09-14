@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowUpRight, Briefcase, Calendar, MapPin, CheckCircle2 } from "lucide-react"
+import { ArrowUpRight, Briefcase, Calendar, MapPin, CheckCircle2, ChevronDown } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -48,6 +48,11 @@ const experiences = [
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+
+  const toggleExpand = (company: string) => {
+    setExpanded((prev) => ({ ...prev, [company]: !prev[company] }))
+  }
 
   useEffect(() => {
     if (!contentRef.current || !sectionRef.current) return
@@ -113,12 +118,18 @@ export function Experience() {
               key={exp.company}
               className={`anim-child p-6 md:p-8 rounded-2xl border transition-all duration-300 ${
                 exp.featured
-                  ? "border-blue-600/30 bg-[var(--card-theme)] shadow-md hover:border-blue-600/60"
+                  ? "border-blue-200 bg-[#EFF6FF] dark:bg-[#0E1626] dark:border-blue-500/40 shadow-sm shadow-blue-500/10 hover:border-blue-300 dark:hover:border-blue-400/60"
                   : "border-[var(--border-theme)] bg-[var(--card-theme)] shadow-xs hover:border-slate-400 dark:hover:border-slate-600"
               }`}
             >
               {/* Header */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[var(--border-theme)]">
+              <div
+                className={`flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b ${
+                  exp.featured
+                    ? "border-blue-200/80 dark:border-white/10"
+                    : "border-[var(--border-theme)]"
+                }`}
+              >
                 <div>
                   <div className="flex items-center gap-3 flex-wrap">
                     <h3 className="font-display font-black text-xl md:text-2xl text-slate-900 dark:text-slate-100">
@@ -129,17 +140,17 @@ export function Experience() {
                       {exp.company}
                     </span>
                     {exp.featured && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.68rem] font-bold tracking-wide uppercase bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-600/20">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[0.68rem] font-bold tracking-wide uppercase bg-blue-600 text-white dark:bg-blue-500/20 dark:text-blue-400 dark:border dark:border-blue-500/30">
                         Current Role
                       </span>
                     )}
                   </div>
-                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mt-1">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mt-1">
                     {exp.category}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-4 flex-wrap text-xs text-slate-500">
+                <div className="flex items-center gap-4 flex-wrap text-xs text-slate-500 dark:text-slate-400">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                     <span className="font-mono">{exp.timeline}</span>
@@ -162,12 +173,32 @@ export function Experience() {
                 </div>
               </div>
 
-              {/* Bullet points */}
-              <div className="py-6 space-y-3">
+              {/* Mobile View More Toggle */}
+              <div className="md:hidden pt-3 pb-1">
+                <button
+                  type="button"
+                  onClick={() => toggleExpand(exp.company)}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 cursor-pointer"
+                >
+                  <span>{expanded[exp.company] ? "View less details" : "View more details"}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      expanded[exp.company] ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Bullet points: Hidden on mobile unless expanded, always visible on md+ */}
+              <div
+                className={`py-4 space-y-3 ${
+                  expanded[exp.company] ? "block" : "hidden md:block"
+                }`}
+              >
                 {exp.highlights.map((bullet, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-                    <p className="text-sm md:text-[0.92rem] leading-relaxed text-slate-700 dark:text-slate-300">
+                    <p className="text-sm md:text-[0.92rem] leading-relaxed text-slate-700 dark:text-slate-200">
                       {bullet}
                     </p>
                   </div>
@@ -175,14 +206,24 @@ export function Experience() {
               </div>
 
               {/* Tech Stack Pills */}
-              <div className="pt-4 border-t border-[var(--border-theme)] flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">
+              <div
+                className={`pt-4 border-t flex items-center gap-2 flex-wrap ${
+                  exp.featured
+                    ? "border-blue-200/80 dark:border-white/10"
+                    : "border-[var(--border-theme)]"
+                }`}
+              >
+                <span className="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider mr-2">
                   Technologies:
                 </span>
                 {exp.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs font-medium px-2.5 py-1 rounded-md border border-[var(--border-theme)] bg-[var(--card-theme-muted)] text-slate-700 dark:text-slate-300"
+                    className={`text-xs font-medium px-2.5 py-1 rounded-md border ${
+                      exp.featured
+                        ? "border-blue-200/80 bg-white/90 text-slate-800 dark:border-blue-900/50 dark:bg-[#162238] dark:text-slate-200"
+                        : "border-[var(--border-theme)] bg-[var(--card-theme-muted)] text-slate-700 dark:text-slate-300"
+                    }`}
                   >
                     {tag}
                   </span>

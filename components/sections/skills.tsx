@@ -16,12 +16,12 @@ const skillCategories = [
   {
     icon: <Database className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
     title: "Backend & Databases",
-    skills: ["PostgreSQL", "Supabase", "MongoDB", "REST APIs", "Redis", "Node.js", "Express.js", "BullMQ"],
+    skills: ["PostgreSQL", "Supabase", "MongoDB", "Mongoose", "REST APIs", "Redis", "Node.js", "Express.js", "BullMQ"],
   },
   {
     icon: <Layout className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />,
     title: "Frontend & Web",
-    skills: ["React.js", "Next.js", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"],
+    skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Zustand", "HTML5 / CSS3"],
   },
   {
     icon: <Terminal className="w-5 h-5 text-purple-600 dark:text-purple-400" />,

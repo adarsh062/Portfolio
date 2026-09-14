@@ -5,7 +5,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { SiGithub, SiGmail, SiLeetcode } from "react-icons/si"
 import { FaCode, FaLinkedin } from "react-icons/fa"
-import { GraduationCap, FileText, ArrowUpRight, CheckCircle2 } from "lucide-react"
+import { GraduationCap, CheckCircle2 } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -25,11 +25,41 @@ const coursework = [
 ]
 
 const links = [
-  { href: "https://github.com/adarsh062", icon: <SiGithub className="w-4 h-4" />, label: "GitHub" },
-  { href: "https://www.linkedin.com/in/adarsh-maurya-64077629/", icon: <FaLinkedin className="w-4 h-4" />, label: "LinkedIn" },
-  { href: "https://codolio.com/profile/adarsh062", icon: <FaCode className="w-4 h-4" />, label: "Codolio" },
-  { href: "https://leetcode.com/u/EAvlrf5Y0M/", icon: <SiLeetcode className="w-4 h-4" />, label: "LeetCode" },
-  { href: "mailto:mauryadarsh9140@gmail.com", icon: <SiGmail className="w-4 h-4" />, label: "Email" },
+  {
+    href: "https://github.com/adarsh062",
+    icon: <SiGithub className="w-4 h-4 text-slate-900 dark:text-slate-100" />,
+    label: "GitHub",
+    colorClass: "hover:bg-slate-100 dark:hover:bg-slate-800/80",
+    labelClass: "text-slate-900 dark:text-slate-100",
+  },
+  {
+    href: "https://www.linkedin.com/in/adarsh-maurya-64077629/",
+    icon: <FaLinkedin className="w-4 h-4 text-[#0A66C2]" />,
+    label: "LinkedIn",
+    colorClass: "hover:bg-blue-50 dark:hover:bg-blue-950/40",
+    labelClass: "text-[#0A66C2]",
+  },
+  {
+    href: "https://codolio.com/profile/adarsh062",
+    icon: <FaCode className="w-4 h-4 text-[#EA580C]" />,
+    label: "Codolio",
+    colorClass: "hover:bg-orange-50 dark:hover:bg-orange-950/40",
+    labelClass: "text-[#EA580C]",
+  },
+  {
+    href: "https://leetcode.com/u/EAvlrf5Y0M/",
+    icon: <SiLeetcode className="w-4 h-4 text-[#FFA116]" />,
+    label: "LeetCode",
+    colorClass: "hover:bg-amber-50 dark:hover:bg-amber-950/40",
+    labelClass: "text-[#FFA116]",
+  },
+  {
+    href: "mailto:mauryadarsh9140@gmail.com",
+    icon: <SiGmail className="w-4 h-4 text-[#EA4335]" />,
+    label: "Email",
+    colorClass: "hover:bg-red-50 dark:hover:bg-red-950/40",
+    labelClass: "text-[#EA4335]",
+  },
 ]
 
 export function About() {
@@ -95,11 +125,11 @@ export function About() {
               </h2>
 
               <p className="anim-child text-base leading-relaxed text-slate-600 dark:text-slate-300">
-                I am a Computer Science undergraduate at <strong className="font-semibold text-slate-900 dark:text-slate-100">IIIT Bhopal</strong> (2023–2027) and Founding Engineer at <strong className="font-semibold text-slate-900 dark:text-slate-100">ARK</strong>. I build scalable full-stack applications, telemetry event pipelines, and ML-powered systems designed for reliability and performance.
+                I am a Computer Science undergraduate at <strong className="font-semibold text-slate-900 dark:text-slate-100">IIIT Bhopal</strong> (2023–2027) and Founding Engineer at <strong className="font-semibold text-slate-900 dark:text-slate-100">ARK</strong>. I build scalable full-stack applications, telemetry event pipelines, and distributed architectures designed for high performance.
               </p>
 
               <p className="anim-child text-base leading-relaxed text-slate-600 dark:text-slate-300">
-                Whether sharding databases to handle millions of redirects with sub-millisecond cache latency, integrating LLMs into diagnostic pipelines, or leading campus events with 30+ team members, I bring rigorous problem-solving and clean architectural standards to every project.
+                Whether sharding databases to handle high-throughput traffic with sub-millisecond cache latency, designing resilient backends, or leading campus events with 30+ team members, I bring rigorous problem-solving and clean architectural standards to every project.
               </p>
             </div>
 
@@ -143,8 +173,6 @@ export function About() {
                 </div>
               </div>
             </div>
-
-
 
           </div>
 
@@ -198,13 +226,16 @@ export function About() {
                   name: <span className="text-emerald-400">&quot;Adarsh Maurya&quot;</span>;
                 </p>
                 <p className="pl-4">
-                  strengths: [<span className="text-emerald-400">&quot;Distributed Systems&quot;</span>, <span className="text-emerald-400">&quot;Applied AI&quot;</span>, <span className="text-emerald-400">&quot;Scalability&quot;</span>];
+                  strengths: [<span className="text-emerald-400">&quot;Distributed Systems&quot;</span>, <span className="text-emerald-400">&quot;Backend Architecture&quot;</span>, <span className="text-emerald-400">&quot;Scalability&quot;</span>];
                 </p>
                 <p className="pl-4">
                   currentRole: <span className="text-emerald-400">&quot;Founding Engineer @ ARK&quot;</span>;
                 </p>
                 <p className="pl-4">
                   dsaSolved: <span className="text-cyan-400">500</span>;
+                </p>
+                <p className="pl-4">
+                  <span className="text-fuchsia-400 font-semibold">beyondCode:</span> [<span className="text-pink-300">&quot;Singer&quot;</span>, <span className="text-pink-300">&quot;Professional Guitarist&quot;</span>, <span className="text-pink-300">&quot;Professional Pianist&quot;</span>];
                 </p>
                 <p className="pl-4">
                   passion: <span className="text-emerald-400">&quot;Turning complex problems into clean solutions&quot;</span>;
@@ -217,46 +248,24 @@ export function About() {
               </div>
             </div>
 
-            {/* Social Links List */}
-            <div className="anim-child p-4 rounded-xl border border-[var(--border-theme)] bg-[var(--card-theme)] flex items-center justify-around flex-wrap gap-2">
+            {/* Social Links List with authentic brand colors */}
+            <div className="anim-child p-3 rounded-xl border border-[var(--border-theme)] bg-[var(--card-theme)] flex items-center justify-around flex-wrap gap-1.5 shadow-xs">
               {links.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-1"
+                  className={`flex items-center gap-2 text-xs font-semibold px-2.5 py-1.5 rounded-lg transition-all ${item.colorClass}`}
                 >
                   {item.icon}
-                  <span>{item.label}</span>
+                  <span className={item.labelClass}>{item.label}</span>
                 </a>
               ))}
             </div>
 
           </div>
 
-        </div>
-        
-        {/* Resume Callout Banner (End of About Section) */}
-        <div className="anim-child mt-12 flex flex-col sm:flex-row sm:items-center justify-between gap-5 p-6 rounded-2xl border border-blue-600/30 bg-blue-50/50 dark:bg-blue-950/20 shadow-xs">
-          <div>
-            <h4 className="font-display font-bold text-base text-slate-900 dark:text-slate-100">
-              Need my complete credentials &amp; technical background?
-            </h4>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-              Download my official resume with verified academic coursework, engineering projects, and full-stack experience.
-            </p>
-          </div>
-          <a
-            href="/Adarsh_Maurya_Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shrink-0 transition-all shadow-sm"
-          >
-            <FileText className="w-4 h-4" />
-            <span>Download Resume (PDF)</span>
-            <ArrowUpRight className="w-4 h-4 opacity-70" />
-          </a>
         </div>
 
       </div>

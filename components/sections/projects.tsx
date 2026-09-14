@@ -1,15 +1,29 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowUpRight, ExternalLink, CheckCircle2 } from "lucide-react"
+import { ArrowUpRight, ExternalLink, CheckCircle2, Play, ChevronDown } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
 import Image from "next/image"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const projects = [
+interface ProjectItem {
+  title: string
+  subtitle: string
+  year: string
+  role: string
+  description: string
+  workPoints: string[]
+  tags: string[]
+  image: string
+  live: string
+  github: string
+  video?: string
+}
+
+const projects: ProjectItem[] = [
   {
     title: "Diagheal",
     subtitle: "AI-Powered Healthcare Analytics Platform",
@@ -46,27 +60,52 @@ const projects = [
     github: "https://github.com/adarsh062/ShortX-URL-Shortner",
   },
   {
-    title: "NEXUS-AI",
-    subtitle: "Realtime GenAI Customer Support Platform",
-    year: "2025",
-    role: "Full-Stack Developer",
+    title: "LoanFlow",
+    subtitle: "Full-Stack Loan Management & Lifecycle System",
+    year: "2026",
+    role: "Full-Stack Engineer",
     description:
-      "Real-time customer query handling and automated support desk engine powered by LLMs and WebSocket streams for concurrent multi-client sessions.",
+      "A production-ready loan management system orchestrating the complete credit lifecycle: borrower onboarding, automated Business Rule Engine (BRE) qualification, multi-tier approvals, disbursement, and automated repayment tracking.",
     workPoints: [
-      "Engineered a real-time AI customer support platform supporting 50+ concurrent active chat sessions.",
-      "Integrated multilingual ticket summarization and intent extraction using the Gemini API.",
-      "Built secure JWT-based REST endpoints and containerized deployment on Render with MongoDB persistence.",
+      "Engineered a server-side Business Rule Engine (BRE) enforcing age limits, income thresholds, employment status, and PAN format verification.",
+      "Implemented a strict 6-tier Role-Based Access Control (RBAC) architecture (Admin, Sales, Sanction, Disbursement, Collection, Borrower) with JWT and bcrypt.",
+      "Built an automated loan lifecycle state machine (PENDING → SANCTIONED → DISBURSED → CLOSED) with real-time interest and amortization calculations.",
+      "Developed an operational dashboard with repayment tracking, unique UTR validation, and automatic loan closure upon zero outstanding balance.",
     ],
-    tags: ["React", "Node.js", "Express.js", "MongoDB", "Socket.IO", "Gemini API", "Docker"],
-    image: "/project_ark.png",
-    live: "",
-    github: "https://github.com/adarsh062/NEXUS-AI",
+    tags: ["Next.js 16", "TypeScript", "Tailwind CSS", "Node.js", "Express.js", "MongoDB", "Zustand", "RBAC", "JWT", "Zod"],
+    image: "/project_loanflow.png",
+    live: "https://loan-flow-steel.vercel.app/login",
+    github: "https://github.com/adarsh062/LoanFlow",
+    video: "https://drive.google.com/file/d/1VYZI4nh_6a1gO58Pcj-XOXVC4qIkFSMz/view?usp=drive_link",
+  },
+  {
+    title: "AI SQL Analytics Assistant",
+    subtitle: "Natural Language to SQL & Interactive Visualization",
+    year: "2026",
+    role: "Full-Stack AI Developer",
+    description:
+      "An AI-powered web application that converts natural language into verified SQL queries, executes them on database tables, and visualizes analytical results with dynamic interactive charts and AI-generated summaries.",
+    workPoints: [
+      "Integrated Google Gemini API to translate plain English prompts into syntactically verified SQL queries.",
+      "Built an interactive analytics dashboard featuring automatic Bar, Pie & Line charts using Recharts.",
+      "Implemented strict SQL validation guardrails ensuring only safe SELECT queries can be executed.",
+      "Engineered tabular result views, query history tracking, saved query bookmarks, and responsive dark-mode UI with Next.js and shadcn/ui.",
+    ],
+    tags: ["Next.js", "TypeScript", "Google Gemini API", "Tailwind CSS", "shadcn/ui", "Recharts", "SQL Validation", "Zod"],
+    image: "/project_sql_assistant.png",
+    live: "https://ai-sql-assistant-rouge.vercel.app/dashboard",
+    github: "https://github.com/adarsh062/AI-SQL-Assistant",
   },
 ]
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
+
+  const toggleExpand = (title: string) => {
+    setExpanded((prev) => ({ ...prev, [title]: !prev[title] }))
+  }
 
   useEffect(() => {
     if (!contentRef.current || !sectionRef.current) return
@@ -122,7 +161,7 @@ export function Projects() {
             </span>
           </h2>
           <p className="anim-project text-base text-slate-600 dark:text-slate-400 max-w-2xl">
-            Selected systems, distributed backend architectures, and machine learning platforms built with rigorous engineering standards.
+            Selected systems, distributed backend architectures, full-stack enterprise platforms, and machine learning solutions built with rigorous engineering standards.
           </p>
         </div>
 
@@ -161,8 +200,28 @@ export function Projects() {
                     </p>
                   </div>
 
-                  {/* Work points */}
-                  <div className="space-y-2 py-1">
+                  {/* Mobile View More Toggle */}
+                  <div className="md:hidden pt-1 pb-1">
+                    <button
+                      type="button"
+                      onClick={() => toggleExpand(project.title)}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400 cursor-pointer"
+                    >
+                      <span>{expanded[project.title] ? "View less details" : "View more details"}</span>
+                      <ChevronDown
+                        className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                          expanded[project.title] ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  </div>
+
+                  {/* Work points: Hidden on mobile unless expanded, always visible on md+ */}
+                  <div
+                    className={`space-y-2 py-1 ${
+                      expanded[project.title] ? "block" : "hidden md:block"
+                    }`}
+                  >
                     {project.workPoints.map((point, pIdx) => (
                       <div key={pIdx} className="flex items-start gap-2.5">
                         <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mt-1 shrink-0" />
@@ -186,7 +245,7 @@ export function Projects() {
                   </div>
 
                   {/* Action links */}
-                  <div className="flex items-center gap-3 pt-2">
+                  <div className="flex items-center gap-3 pt-2 flex-wrap">
                     {project.live && (
                       <a
                         href={project.live}
@@ -196,6 +255,17 @@ export function Projects() {
                       >
                         <span>Live Demo</span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {project.video && (
+                      <a
+                        href={project.video}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-lg border border-blue-600/30 text-blue-600 dark:text-blue-400 bg-blue-500/10 hover:bg-blue-500/20 transition-all"
+                      >
+                        <Play className="w-3.5 h-3.5 fill-current" />
+                        <span>Video Demo</span>
                       </a>
                     )}
                     {project.github && (
