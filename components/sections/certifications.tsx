@@ -82,12 +82,11 @@ export function Certifications() {
         {/* Title */}
         <div className="anim-child mb-12 flex flex-col sm:flex-row justify-between sm:items-end gap-4">
           <h2
-            className="font-display text-5xl md:text-6xl font-bold leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.01em", color: "var(--text-theme)" }}
+            className="font-display text-5xl md:text-6xl font-black leading-tight tracking-tight"
+            style={{ color: "var(--text-theme)" }}
           >
-            Certifications &amp;
-            <br />
-            <em className="opacity-50" style={{ fontStyle: "italic", color: "var(--text-theme)" }}>Credentials</em>
+            Certifications &amp; <br />
+            <span className="text-accent underline decoration-4 decoration-border select-none">Credentials</span>
           </h2>
           <span className="editorial-label opacity-45 font-mono text-sm hidden sm:block" style={{ color: "var(--text-theme)" }}>
             [CLICK ARROWS TO SLIDE LOOP]
@@ -99,7 +98,7 @@ export function Certifications() {
           
           {/* Certificate Image Frame */}
           <div 
-            className="relative w-full aspect-[4/3] max-w-2xl border border-black/10 dark:border-white/10 overflow-hidden shadow-2xl transition-all duration-500 bg-white/5"
+            className="relative w-full aspect-[4/3] max-w-2xl border-3 border-stone-900 dark:border-white overflow-hidden rounded-xl shadow-[6px_6px_0px_var(--border-theme)] transition-all duration-500 bg-card"
           >
             <Image
               src={certifications[activeIndex].image}
@@ -114,8 +113,8 @@ export function Certifications() {
           {/* Certificate Label */}
           <div className="text-center mt-6">
             <h3 
-              className="font-display text-2xl md:text-3xl font-bold mb-1"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "var(--text-theme)" }}
+              className="font-display text-2xl md:text-3xl font-black mb-1"
+              style={{ color: "var(--text-theme)" }}
             >
               {certifications[activeIndex].title}
             </h3>

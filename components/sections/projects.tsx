@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, ExternalLink, CheckCircle2 } from "lucide-react"
 import { FaGithub } from "react-icons/fa"
 import Image from "next/image"
 
@@ -12,229 +12,81 @@ gsap.registerPlugin(ScrollTrigger)
 const projects = [
   {
     title: "Diagheal",
-    tagline: "Chronic Liver Disease Prediction (Research Project)",
-    description:
-      "Evaluated 6+ machine learning models and selected CatBoost with 89%+ accuracy. Reduced false negatives by 18% using SMOTE, class weighting, and decision threshold optimization. Built a Next.js/FastAPI platform featuring report analysis, disease risk prediction, doctor availability mapping, and Groq-powered diet plans.",
-    tags: ["Next.js", "FastAPI", "CatBoost", "PostgreSQL", "Tailwind CSS", "Groq API"],
-    image: "/project_diagheal.png",
-    link: "https://diagheal.vercel.app/",
-    github: "https://github.com/adarsh062/Diagheal",
+    subtitle: "AI-Powered Healthcare Analytics Platform",
     year: "2026",
-    role: "AI Developer · Solo Minor Project",
-    number: "01",
+    role: "Full-Stack AI Developer",
+    description:
+      "A comprehensive medical analytics platform that automates multi-variable diagnostic record analysis, accelerates clinical triage, and delivers patient-specific health insights using CatBoost classification and LLMs.",
+    workPoints: [
+      "Conducted EDA and feature engineering on multi-variable diagnostic records.",
+      "Automated report ingestion using FastAPI and PostgreSQL.",
+      "Trained and tuned a CatBoost classification model to reduce false-positive rates and optimize prediction precision.",
+      "Integrated Groq LLM API with structured prompt engineering to analyze diagnostic patterns and generate patient insights.",
+    ],
+    tags: ["Python", "CatBoost", "FastAPI", "Next.js", "PostgreSQL", "Groq API", "EDA", "Prompt Engineering"],
+    image: "/project_diagheal.png",
+    live: "https://diagheal.vercel.app/",
+    github: "https://github.com/adarsh062/Diagheal",
   },
   {
-    title: "Enterprise DevSecOps CI/CD",
-    tagline: "Secure Pipeline Orchestration",
-    description:
-      "Built a secure DevSecOps pipeline automating build, test, and containerized deployment on Kubernetes. Utilized Terraform for infrastructure provisioning, SonarQube for static analysis, GitHub Actions/Jenkins for flow orchestration, and Trivy for container image vulnerability scanning.",
-    tags: ["Jenkins", "Docker", "Kubernetes", "Terraform", "GitHub Actions", "SonarQube", "Trivy"],
-    image: "/image.png",
-    link: "https://github.com/adarsh062/devsecops-security-pipeline",
-    github: "https://github.com/adarsh062/devsecops-security-pipeline",
+    title: "ShortX",
+    subtitle: "Distributed URL Shortening System",
     year: "2026",
-    role: "DevOps Engineer · Solo",
-    number: "02",
+    role: "Backend & Systems Engineer",
+    description:
+      "A resilient distributed URL shortening system built for high-throughput concurrency, featuring database horizontal partitioning and aggressive caching.",
+    workPoints: [
+      "Engineered a sharded database architecture using PostgreSQL with partition routing across 3 shards for horizontal scale.",
+      "Reduced redirect P95 latency by 91.5% using Redis LRU caching, verified via benchmark load tests.",
+      "Implemented Redis rate limiting and fallback strategies to maintain continuous analytical tracking during peak traffic.",
+    ],
+    tags: ["Node.js", "PostgreSQL", "Redis", "Docker", "Database Sharding", "LRU Cache", "Rate Limiting", "Benchmark Tests"],
+    image: "/image.png",
+    live: "",
+    github: "https://github.com/adarsh062/ShortX-URL-Shortner",
   },
   {
     title: "NEXUS-AI",
-    tagline: "Realtime GenAI Customer Support",
-    description:
-      "Engineered a real-time AI customer support platform supporting 50+ concurrent active chat sessions. Integrated multilingual ticket summarization using Gemini API, built secure JWT-based REST endpoints, and containerized deployment on Render with MongoDB storage.",
-    tags: ["React", "Node.js", "Express.js", "MongoDB", "Socket.IO", "Gemini API", "Docker"],
-    image: "/image.png",
-    link: "https://github.com/adarsh062/NEXUS-AI",
-    github: "https://github.com/adarsh062/NEXUS-AI",
+    subtitle: "Realtime GenAI Customer Support Platform",
     year: "2025",
-    role: "Full Stack Engineer · Solo",
-    number: "03",
+    role: "Full-Stack Developer",
+    description:
+      "Real-time customer query handling and automated support desk engine powered by LLMs and WebSocket streams for concurrent multi-client sessions.",
+    workPoints: [
+      "Engineered a real-time AI customer support platform supporting 50+ concurrent active chat sessions.",
+      "Integrated multilingual ticket summarization and intent extraction using the Gemini API.",
+      "Built secure JWT-based REST endpoints and containerized deployment on Render with MongoDB persistence.",
+    ],
+    tags: ["React", "Node.js", "Express.js", "MongoDB", "Socket.IO", "Gemini API", "Docker"],
+    image: "/project_ark.png",
+    live: "",
+    github: "https://github.com/adarsh062/NEXUS-AI",
   },
 ]
 
-function ProjectSpread({
-  project,
-  index,
-}: {
-  project: (typeof projects)[0]
-  index: number
-}) {
-  const rowRef = useRef<HTMLDivElement>(null)
-  const imgRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!rowRef.current) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        [textRef.current, imgRef.current],
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: rowRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      )
-    }, rowRef)
-    return () => ctx.revert()
-  }, [])
-
-  const isEven = index % 2 === 0
-
-  return (
-    <div ref={rowRef} className="py-16 md:py-24">
-      <div className="h-[1px] w-full mb-12" style={{ background: "var(--border-theme)" }} />
-      <div
-        className={`grid lg:grid-cols-2 gap-12 md:gap-16 items-start ${isEven ? "" : "direction-rtl"}`}
-      >
-        {/* Text side */}
-        <div
-          ref={textRef}
-          className={`flex flex-col justify-between h-full ${
-            isEven ? "pr-0 lg:pr-8" : "pl-0 lg:pl-8 order-last lg:order-first"
-          }`}
-        >
-          {/* Number + meta */}
-          <div className="flex items-start justify-between mb-8 border-b border-black/10 dark:border-white/10 pb-4">
-            <span
-              className="font-display font-black leading-none tracking-tighter"
-              style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: "clamp(3rem, 6vw, 4.5rem)",
-                color: "var(--text-theme)",
-                opacity: 0.08,
-              }}
-            >
-              {project.number}
-            </span>
-            <div className="text-right">
-              <div className="editorial-label mb-1 opacity-55" style={{ color: "var(--text-theme)", fontSize: "0.6rem" }}>{project.year}</div>
-              <div className="editorial-label opacity-55" style={{ color: "var(--text-theme)", fontSize: "0.6rem" }}>{project.role}</div>
-            </div>
-          </div>
-
-          {/* Title + tagline */}
-          <div className="mb-6">
-            <h3
-              className="font-display text-3xl md:text-4xl font-bold mb-3 leading-tight"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.02em", color: "var(--text-theme)" }}
-            >
-              {project.title}
-            </h3>
-            <p className="editorial-label text-xs opacity-50" style={{ color: "var(--text-theme)", fontSize: "0.65rem" }}>
-              {project.tagline}
-            </p>
-          </div>
-
-          {/* Description */}
-          <p
-            className="text-sm md:text-base leading-relaxed mb-6 opacity-75"
-            style={{ color: "var(--text-theme)" }}
-          >
-            {project.description}
-          </p>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-1.5 mb-8">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="editorial-tag opacity-80"
-                style={{
-                  borderColor: "var(--border-theme)",
-                  color: "var(--text-theme)",
-                  fontSize: "0.6rem",
-                  padding: "0.15rem 0.5rem"
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* Links - Blue High Contrast, Larger size */}
-          <div className="flex items-center gap-6">
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="editorial-link hover:text-blue-800 transition-colors inline-flex items-center gap-1.5 text-sm md:text-base font-bold"
-              style={{
-                color: "#0066cc",
-                borderBottomColor: "rgba(0, 102, 204, 0.4)",
-              }}
-            >
-              Live Site
-              <ArrowUpRight className="w-5 h-5 text-[#0066cc]" />
-            </a>
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="editorial-link hover:text-blue-800 transition-colors inline-flex items-center gap-1.5 text-sm md:text-base font-bold"
-              style={{
-                color: "#0066cc",
-                borderBottomColor: "rgba(0, 102, 204, 0.4)",
-              }}
-            >
-              GitHub
-              <FaGithub className="w-5 h-5 text-[#0066cc]" />
-            </a>
-          </div>
-        </div>
-
-        {/* Image side - 16:10 format in full color */}
-        <div
-          ref={imgRef}
-          className={`${isEven ? "pl-0 lg:pl-8" : "pr-0 lg:pr-8"}`}
-        >
-          <div
-            className="relative w-full aspect-[16/10] border border-black/10 dark:border-white/10 overflow-hidden shadow-lg bg-black/5 dark:bg-white/5"
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 550px"
-            />
-            {/* Subtle overlay */}
-            <div className="absolute inset-0 bg-black/5 dark:bg-white/5 pointer-events-none" />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null)
-  const headingRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!headingRef.current) return
+    if (!contentRef.current || !sectionRef.current) return
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        headingRef.current!.querySelectorAll(".anim-child"),
-        { opacity: 0, y: 40 },
+        contentRef.current!.querySelectorAll(".anim-project"),
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
-          stagger: 0.1,
+          stagger: 0.12,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: headingRef.current,
-            start: "top 80%",
+            trigger: sectionRef.current,
+            start: "top 78%",
             toggleActions: "play none none none",
           },
         }
       )
-    }, headingRef)
+    }, sectionRef)
     return () => ctx.revert()
   }, [])
 
@@ -242,52 +94,161 @@ export function Projects() {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative z-10 transition-colors duration-500"
-      style={{ 
-        background: "var(--background-theme)", 
-        color: "var(--text-theme)", 
-        paddingTop: "8rem", 
-        paddingBottom: "6rem" 
+      style={{
+        background: "var(--background-theme)",
+        color: "var(--text-theme)",
+        borderTop: "1px solid var(--border-theme)",
       }}
+      className="relative z-10"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-
-        {/* Section header */}
-        <div ref={headingRef} className="mb-0">
-          <div className="anim-child flex items-center gap-6 mb-16">
-            <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
-            <span className="editorial-label shrink-0 opacity-50" style={{ color: "var(--text-theme)" }}>03 / Projects</span>
-          </div>
-
-          <div className="anim-child flex flex-col md:flex-row md:items-end justify-between gap-6 mb-0">
-            <h2
-              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.02em", color: "var(--text-theme)" }}
-            >
-              Projects
-            </h2>
-            <a
-              href="https://github.com/adarsh062"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="editorial-link mb-2 shrink-0 inline-flex items-center gap-1.5 font-semibold hover:text-blue-800 transition-colors"
-              style={{
-                color: "#0066cc",
-                borderBottomColor: "rgba(0, 102, 204, 0.4)",
-              }}
-            >
-              More on GitHub
-              <FaGithub className="w-5 h-5 text-[#0066cc]" />
-            </a>
-          </div>
+      <div ref={contentRef} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-20 lg:py-28">
+        
+        {/* ── Section label ── */}
+        <div className="anim-project flex items-center gap-3 mb-10">
+          <span className="text-xs font-bold tracking-widest uppercase text-blue-600 dark:text-blue-400">
+            03 / Featured Projects
+          </span>
+          <div className="flex-1 h-px bg-[var(--border-theme)]" />
         </div>
 
-        {/* Projects spreads */}
-        <div className="mt-8">
-          {projects.map((project, index) => (
-            <ProjectSpread key={project.title} project={project} index={index} />
+        <div className="mb-14">
+          <h2
+            className="anim-project font-display font-black leading-tight tracking-tight mb-4"
+            style={{ fontSize: "clamp(2rem, 3.8vw, 3.2rem)", color: "var(--text-theme)" }}
+          >
+            Scalable architectures &amp;{" "}
+            <span className="text-blue-600 dark:text-blue-400">
+              applied intelligence.
+            </span>
+          </h2>
+          <p className="anim-project text-base text-slate-600 dark:text-slate-400 max-w-2xl">
+            Selected systems, distributed backend architectures, and machine learning platforms built with rigorous engineering standards.
+          </p>
+        </div>
+
+        {/* Project Cards List */}
+        <div className="flex flex-col gap-10">
+          {projects.map((project, idx) => (
+            <div
+              key={project.title}
+              className="anim-project rounded-2xl border border-[var(--border-theme)] bg-[var(--card-theme)] overflow-hidden shadow-xs hover:shadow-md transition-all duration-300"
+            >
+              <div className="grid lg:grid-cols-12 gap-8 items-center p-6 md:p-8">
+                
+                {/* Left: Project Details (7 cols) */}
+                <div className="lg:col-span-7 flex flex-col gap-5">
+                  <div>
+                    <div className="flex items-center justify-between gap-4 flex-wrap mb-2">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">
+                          0{idx + 1}
+                        </span>
+                        <h3 className="font-display font-bold text-2xl md:text-3xl text-slate-900 dark:text-slate-100">
+                          {project.title}
+                        </h3>
+                      </div>
+                      <span className="font-mono text-xs text-slate-500 font-semibold px-2.5 py-1 rounded-md border border-[var(--border-theme)] bg-[var(--card-theme-muted)]">
+                        {project.year}
+                      </span>
+                    </div>
+
+                    <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-3">
+                      {project.subtitle} · <span className="text-slate-500 font-normal">{project.role}</span>
+                    </p>
+
+                    <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  {/* Work points */}
+                  <div className="space-y-2 py-1">
+                    {project.workPoints.map((point, pIdx) => (
+                      <div key={pIdx} className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mt-1 shrink-0" />
+                        <span className="text-xs md:text-[0.82rem] leading-relaxed text-slate-700 dark:text-slate-300">
+                          {point}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {project.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[0.7rem] font-medium px-2.5 py-0.5 rounded-full border border-[var(--border-theme)] bg-[var(--card-theme-muted)] text-slate-600 dark:text-slate-300"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Action links */}
+                  <div className="flex items-center gap-3 pt-2">
+                    {project.live && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-sm"
+                      >
+                        <span>Live Demo</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-lg border border-[var(--border-theme)] bg-[var(--card-theme)] text-slate-700 dark:text-slate-300 hover:border-blue-500/50 hover:bg-[var(--bg-hover-theme)] transition-all"
+                      >
+                        <FaGithub className="w-3.5 h-3.5" />
+                        <span>Source Code</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right: Project Visual Preview (5 cols) */}
+                <div className="lg:col-span-5 relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-[var(--border-theme)] bg-[var(--card-theme-muted)] group">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 40vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                    {project.live ? (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-semibold text-white inline-flex items-center gap-1 bg-black/60 backdrop-blur px-3 py-1.5 rounded-lg"
+                      >
+                        <span>Visit Site</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-semibold text-white inline-flex items-center gap-1 bg-black/60 backdrop-blur px-3 py-1.5 rounded-lg"
+                      >
+                        <span>View Repository</span>
+                        <FaGithub className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+
+              </div>
+            </div>
           ))}
-          <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
         </div>
 
       </div>

@@ -3,39 +3,66 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Code, Database, Layout, Terminal, Brain, Award } from "lucide-react"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const skillGroups = [
+const skillCategories = [
   {
+    icon: <Code className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
     title: "Languages",
-    skills: "C++, Java, JavaScript (ES6+), Python, SQL",
+    skills: ["C++", "Java", "Python (Pandas, NumPy)", "JavaScript (ES6+)", "SQL (PostgreSQL, Window Functions)"],
   },
   {
-    title: "Frontend",
-    skills: "React.js, Next.js, Tailwind CSS, Three.js, GSAP",
+    icon: <Database className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
+    title: "Backend & Databases",
+    skills: ["PostgreSQL", "Supabase", "MongoDB", "REST APIs", "Redis", "Node.js", "Express.js", "BullMQ"],
   },
   {
-    title: "Backend & DBs",
-    skills: "Node.js, Express.js, REST APIs, PostgreSQL, MongoDB, Supabase",
+    icon: <Layout className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />,
+    title: "Frontend & Web",
+    skills: ["React.js", "Next.js", "TypeScript", "HTML5", "CSS3", "Tailwind CSS"],
   },
   {
-    title: "AI / ML",
-    skills: "Machine Learning, Generative AI, LLM Integration, Prompt Engineering, CatBoost, Groq API, Gemini API",
-  },
-  {
+    icon: <Terminal className="w-5 h-5 text-purple-600 dark:text-purple-400" />,
     title: "DevOps & Tools",
-    skills: "Git, GitHub, Docker, Kubernetes, Jenkins, GitHub Actions, CI/CD",
+    skills: ["Git", "GitHub", "Docker", "GitHub Actions", "CI/CD", "Render", "Linux"],
   },
   {
-    title: "Certifications",
-    skills: "Software Engineering Job Sim (Forage - Kafka workflows) · Multi Cloud & DevOps Bootcamp",
+    icon: <Brain className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
+    title: "AI / ML & Analytics",
+    skills: ["Machine Learning", "CatBoost", "LLM Integration", "Prompt Engineering", "Exploratory Data Analysis (EDA)", "Statistical Modeling"],
+  },
+]
+
+const certifications = [
+  {
+    title: "Software Engineering Job Simulation",
+    issuer: "Forage",
+    detail: "Built REST APIs and Kafka real-time streaming workflows.",
+  },
+  {
+    title: "Multi Cloud + DevOps Bootcamp",
+    issuer: "Bootcamp",
+    detail: "Mastered Docker, cloud deployment strategies, and CI/CD pipelines.",
   },
 ]
 
 const marqueeItems = [
-  "React", "TypeScript", "Node.js", "Next.js", "Jenkins",
-  "Docker", "Kubernetes", "PostgreSQL", "Python", "Supabase", "MongoDB", "GSAP"
+  { label: "React", color: "#61DAFB" },
+  { label: "TypeScript", color: "#3178C6" },
+  { label: "Node.js", color: "#539E43" },
+  { label: "Next.js", color: "#000000" },
+  { label: "Python", color: "#F4C430" },
+  { label: "FastAPI", color: "#059669" },
+  { label: "PostgreSQL", color: "#336791" },
+  { label: "Redis", color: "#DC2626" },
+  { label: "Docker", color: "#2496ED" },
+  { label: "CatBoost", color: "#F59E0B" },
+  { label: "Supabase", color: "#3ECF8E" },
+  { label: "MongoDB", color: "#10B981" },
+  { label: "Tailwind CSS", color: "#38BDF8" },
+  { label: "C++", color: "#00599C" },
 ]
 
 export function Skills() {
@@ -45,32 +72,25 @@ export function Skills() {
 
   useEffect(() => {
     if (!contentRef.current || !sectionRef.current) return
-
     const ctx = gsap.context(() => {
-      // Stagger rows in
       gsap.fromTo(
-        contentRef.current!.querySelectorAll(".anim-row"),
+        contentRef.current!.querySelectorAll(".anim-skill"),
         { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          stagger: 0.06,
+          stagger: 0.08,
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 75%",
+            start: "top 78%",
             toggleActions: "play none none none",
           },
         }
       )
-
-      // Infinite marquee
       const el = marqueeRef.current?.querySelector(".marquee-track") as HTMLElement | null
-      if (el) {
-        gsap.to(el, { xPercent: -50, duration: 32, ease: "none", repeat: -1 })
-      }
+      if (el) gsap.to(el, { xPercent: -50, duration: 28, ease: "none", repeat: -1 })
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
 
@@ -78,95 +98,116 @@ export function Skills() {
     <section
       ref={sectionRef}
       id="skills"
-      className="relative z-10 transition-colors duration-500"
-      style={{ 
-        background: "var(--background-theme)", 
-        color: "var(--text-theme)", 
-        paddingTop: "8rem" 
+      style={{
+        background: "var(--background-theme)",
+        color: "var(--text-theme)",
+        borderTop: "1px solid var(--border-theme)",
       }}
+      className="relative z-10 overflow-hidden"
     >
-      <div ref={contentRef}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24">
-          {/* Section header */}
-          <div className="anim-row flex items-center gap-6 mb-16">
-            <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
-            <span className="editorial-label shrink-0 opacity-50" style={{ color: "var(--text-theme)" }}>04 / Skills</span>
-          </div>
+      <div ref={contentRef} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pt-20 lg:pt-28 pb-12">
+        
+        {/* ── Section label ── */}
+        <div className="anim-skill flex items-center gap-3 mb-10">
+          <span className="text-xs font-bold tracking-widest uppercase text-blue-600 dark:text-blue-400">
+            04 / Technical Skills
+          </span>
+          <div className="flex-1 h-px bg-[var(--border-theme)]" />
+        </div>
 
-          <div className="anim-row mb-16">
-            <h2
-              className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", letterSpacing: "-0.02em", color: "var(--text-theme)" }}
+        <div className="mb-14">
+          <h2
+            className="anim-skill font-display font-black leading-tight tracking-tight mb-4"
+            style={{ fontSize: "clamp(2rem, 3.8vw, 3.2rem)", color: "var(--text-theme)" }}
+          >
+            Technical toolkit &amp;{" "}
+            <span className="text-blue-600 dark:text-blue-400">
+              core competencies.
+            </span>
+          </h2>
+          <p className="anim-skill text-base text-slate-600 dark:text-slate-400 max-w-2xl">
+            A comprehensive set of modern languages, backend architectures, databases, cloud tools, and applied machine learning frameworks.
+          </p>
+        </div>
+
+        {/* Skill categories grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {skillCategories.map((category) => (
+            <div
+              key={category.title}
+              className="anim-skill p-6 rounded-2xl border border-[var(--border-theme)] bg-[var(--card-theme)] shadow-xs hover:border-blue-500/40 hover:shadow-md transition-all duration-300 flex flex-col gap-4"
             >
-              Technical
-              <br />
-              <em className="opacity-50" style={{ fontStyle: "italic", color: "var(--text-theme)" }}>Capabilities</em>
-            </h2>
-          </div>
-
-          {/* Editorial Skills Table of Content Style */}
-          <div className="space-y-0">
-            <div className="h-[1px] w-full" style={{ background: "var(--border-theme)" }} />
-            {skillGroups.map((group, i) => (
-              <div
-                key={group.title}
-                className="anim-row flex flex-col md:flex-row md:items-baseline py-6 group transition-colors duration-300"
-                style={{ borderBottom: "1px solid var(--border-theme)" }}
-              >
-                {/* Index + Title */}
-                <div className="flex items-center gap-4 w-full md:w-64 shrink-0 mb-2 md:mb-0">
-                  <span className="font-mono text-xs opacity-50 font-semibold" style={{ color: "var(--text-theme)" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span 
-                    className="font-display text-lg font-bold group-hover:italic transition-all duration-300" 
-                    style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "var(--text-theme)" }}
-                  >
-                    {group.title}
-                  </span>
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl border border-[var(--border-theme)] bg-[var(--card-theme-muted)]">
+                  {category.icon}
                 </div>
-
-                {/* Dot Leader */}
-                <div className="hidden md:block flex-grow border-b border-dotted mx-4 self-center h-[1px]" style={{ borderColor: "var(--border-theme)", opacity: 0.3 }} />
-
-                {/* Skills list */}
-                <div className="text-sm font-semibold opacity-75 max-w-xl text-left md:text-right font-sans" style={{ color: "var(--text-theme)" }}>
-                  {group.skills}
-                </div>
+                <h3 className="font-display font-bold text-base text-slate-900 dark:text-slate-100">
+                  {category.title}
+                </h3>
               </div>
-            ))}
+
+              <div className="flex flex-wrap gap-2 pt-2">
+                {category.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-medium px-2.5 py-1 rounded-lg border border-[var(--border-theme)] bg-[var(--card-theme-muted)] text-slate-700 dark:text-slate-300"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {/* Certifications Card */}
+          <div className="anim-skill p-6 rounded-2xl border border-[var(--border-theme)] bg-[var(--card-theme)] shadow-xs hover:border-blue-500/40 hover:shadow-md transition-all duration-300 flex flex-col gap-4 md:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl border border-[var(--border-theme)] bg-[var(--card-theme-muted)]">
+                <Award className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h3 className="font-display font-bold text-base text-slate-900 dark:text-slate-100">
+                Certifications &amp; Training
+              </h3>
+            </div>
+
+            <div className="space-y-3 pt-1">
+              {certifications.map((c) => (
+                <div key={c.title} className="text-xs space-y-0.5">
+                  <div className="font-bold text-slate-900 dark:text-slate-100">
+                    {c.title}
+                  </div>
+                  <div className="text-slate-500 font-medium">
+                    {c.issuer} — {c.detail}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Marquee ticker */}
-        <div
-          ref={marqueeRef}
-          className="marquee-container mt-24 overflow-hidden py-7"
-          style={{
-            borderTop: "1px solid var(--border-theme)",
-            borderBottom: "1px solid var(--border-theme)",
-          }}
-        >
-          <div className="marquee-track flex">
-            {[...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems].map((skill, i) => (
+      </div>
+
+      {/* Infinite Tech Stack Marquee */}
+      <div
+        ref={marqueeRef}
+        className="py-8 border-y border-[var(--border-theme)] bg-[var(--card-theme-muted)] overflow-hidden select-none"
+      >
+        <div className="marquee-track flex gap-8 items-center">
+          {[...marqueeItems, ...marqueeItems].map((item, idx) => (
+            <div
+              key={idx}
+              className="flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[var(--border-theme)] bg-[var(--card-theme)] shrink-0"
+            >
               <span
-                key={i}
-                className="font-display text-5xl md:text-7xl font-black mx-10 shrink-0 select-none"
-                style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  color: "var(--text-theme)",
-                  opacity: 0.04,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {skill}
+                className="w-2 h-2 rounded-full"
+                style={{ background: item.color }}
+              />
+              <span className="font-mono text-xs font-semibold tracking-wider text-slate-700 dark:text-slate-300">
+                {item.label}
               </span>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-
-        {/* Bottom padding */}
-        <div style={{ paddingBottom: "8rem" }} />
       </div>
     </section>
   )
